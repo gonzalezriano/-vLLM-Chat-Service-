@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container wide">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h2>Chat</h2>
+        <div style="display:flex; align-items:center; gap:12px;">
+            <span style="font-size:13px; color:#6b7280;">{{ user.email }}</span>
+            <form method="post" action="/logout">
+                <button type="submit" style="background:#ef4444; width:auto; padding:8px 16px;">Logout</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="chat-box" style="
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        height: 420px;
+        overflow-y: auto;
+        background: #f9fafb;
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    ">
+        {% if history %}
+            {% for msg in history %}
+                {% if msg.role == 'user' %}
+                <div style="display:flex; justify-content:flex-end;">
+                    <div style="
+                        background: #4f46e5;
+                        color: white;
+                        border-radius: 16px 16px 4px 16px;
+                        padding: 10px 14px;
+                        max-width: 70%;
+                        font-size: 14px;
+                        line-height: 1.5;
+                    ">{{ msg.content }}</div>
+                </div>
+                {% else %}
+                <div style="display:flex; justify-content:flex-start;">
+                    <div style="
+                        background: white;
+                        border: 1px solid #e5e7eb;
+                        border-radius: 16px 16px 16px 4px;
+                        padding: 10px 14px;
+                        max-width: 70%;
+                        font-size: 14px;
+                        line-height: 1.5;
+                        color: #1a1a1a;
+                    ">{{ msg.content }}</div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div style="text-align:center; color:#9ca3af; margin:auto; font-size:14px;">
+                No messages yet. Say something!
+            </div>
+        {% endif %}
+    </div>
+
+    <form method="post" action="/chat" style="display:flex; gap:10px;">
+        <input
+            type="text"
+            name="prompt"
+            placeholder="Type your message..."
+            required
+            style="flex:1; margin:0;"
+            autofocus
+        >
+        <button type="submit" style="width:auto; padding:10px 20px;">Send</button>
+    </form>
+</div>
+
+<script>
+    var box = document.getElementById("chat-box");
+    if (box) box.scrollTop = box.scrollHeight;
+</script>
+{% endblock %}
