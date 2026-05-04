@@ -65,7 +65,7 @@ da510-vllm-chat-service/
 │       ├── register.html
 │       ├── login.html
 │       └── chat.html
-└── screenshots/
+└── evidence/
 ```
 
 ---
